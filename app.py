@@ -23,7 +23,7 @@ def index():
         return "Failed to fetch recipes from Spoonacular API."
 
 @app.route('/recommendations')
-def get_recommendations():
+def display_recommendations():
     response = requests.get(
         f'https://api.spoonacular.com/recipes/complexSearch',
         params={
@@ -35,10 +35,13 @@ def get_recommendations():
     if response.status_code == 200:
         data = response.json()
         values = data['results']
-        return render_template("recommendations.html", values =values)
+        return render_template("recommendations.html")
     else:
         # Handle API error
         return "Failed to fetch filtered results from Spoonacular API."
+@app.route('/get_recommendations')
+def get_recommendations():
+    return render_template('preferencespage/index.html')
 
 @app.route("/search")
 def search_page():

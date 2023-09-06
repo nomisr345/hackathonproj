@@ -14,7 +14,6 @@ def index():
             'sort': 'popularity',  # Sort by popularity or other criteria
         }
     )
-
     if response.status_code == 200:
         data = response.json()
         recipes = data['results']
@@ -22,6 +21,24 @@ def index():
     else:
         # Handle API error
         return "Failed to fetch recipes from Spoonacular API."
+
+@app.route('/recommendations')
+def get_recommendations():
+    response = requests.get(
+        f'https://api.spoonacular.com/recipes/complexSearch',
+        params={
+            'apiKey': SPOONACULAR_API_KEY,
+            'number': 10,  # Number of recipes to fetch
+            'sort': 'popularity',  # Sort by popularity or other criteria
+        }
+    )
+    if response.status_code == 200:
+        data = response.json()
+        values = data['results']
+        return render_template("recommendations.html", values =values)
+    else:
+        # Handle API error
+        return "Failed to fetch filtered results from Spoonacular API."
 
 @app.route("/search")
 def search_page():

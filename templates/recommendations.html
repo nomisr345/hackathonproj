@@ -50,28 +50,11 @@
         </div>
     </div>
 </nav>
-
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Eating healthier</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Search for recipes now!</p>
-
-                        <a href="{{url_for('get_recommendations')}}">  <button class="btn btn-primary mt-3">Get Recommendations</button></a>
-
-                </div>
-            </div>
-        </header>
         <!-- Section-->
         <section class="py-5 container">
-
-
-
-
 {% block content %}
 <div class="row">
-    {% for recipe in recipes %}
+    {% for recipe in values %}
     <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
             <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">

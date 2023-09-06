@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <ul>
+        {% for result in results %}
+            <li>
+                <h3>{{ result.title }}</h3>
+                <img src="{{ result.image }}" alt="{{ result.title }}" width="200">
+                <p>{{ result.summary }}</p>
+                <p>Ready in {{ result.readyInMinutes }} minutes</p>
+                <p>Servings: {{ result.servings }}</p>
+                <a href="{{ result.sourceUrl }}" target="_blank">See Recipe</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+

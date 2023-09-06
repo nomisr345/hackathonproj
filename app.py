@@ -2,8 +2,7 @@ from flask import Flask, render_template,request
 import requests
 
 app = Flask(__name__)
-SPOONACULAR_API_KEY = '1bd1e04cac5447b9b15d8f607f4a6de9'
-
+SPOONACULAR_API_KEY = '090e79deb937480d95c675344c10bf55'
 @app.route("/")
 def index():
     response = requests.get(
@@ -14,6 +13,7 @@ def index():
             'sort': 'popularity',  # Sort by popularity or other criteria
         }
     )
+    print(response.status_code)
     if response.status_code == 200:
         data = response.json()
         recipes = data['results']

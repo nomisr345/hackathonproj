@@ -30,7 +30,7 @@ app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
 app.config['SECRET_KEY'] = secret_key
-SPOONACULAR_API_KEY = '0c9652ce1d1147619d550d8a1dee321e'
+SPOONACULAR_API_KEY = 'ccfe11f1538f4680838f93c6d459c86f'
 
 
 @app.route("/")
@@ -86,8 +86,8 @@ def display_recommendations():
             'maxFat': maxfat,
             'excludeIngredients': allergies,
             'diet': preferredDiet,
-            'number': 10,  # Number of recipes to fetch
-            'sort': 'popularity',  # Sort by popularity or other criteria
+            'number': 20,  # Number of recipes to fetch
+            'sort': 'healthiness',  # Sort by popularity or other criteria
         }
     )
     print(response.status_code)
@@ -98,9 +98,7 @@ def display_recommendations():
                               datas= recipes)
     else:
         return "Failed to fetch recipes from Spoonacular API."
-@app.route("/saved")
-def saved_page():
-    return render_template('saved.html')
+
 @app.route("/search")
 def search_page():
     return render_template('search.html')
@@ -174,7 +172,7 @@ def signup_page():
             db.session.commit()
         except Exception as e:
             return render_template("error.html", message="Username already exists!")
-        return render_template("login page/signin.html", msg="Account created!")
+        return render_template("signin.html", msg="Account created!")
     return render_template('login page/signup.html')
 
 
@@ -203,7 +201,7 @@ def logout():
 @app.route("/dashboard")
 def dashboard():
     username = session.get("username")
-    return render_template('dashboard.html', username = username)
+    return render_template('dashboard.html', username=username)
 
 from flask import render_template, request, session
 
@@ -245,4 +243,4 @@ def create_user():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    app.run(debug=True)

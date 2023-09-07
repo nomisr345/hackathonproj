@@ -31,7 +31,8 @@
                 </div>
                 <div class="card-body">
                     <h2 class="title">Your Preferences</h2>
-                    <form method="POST" action="/display_recommendations">
+                    <form method="POST" action="{{ url_for('get_recommendations') }}">
+                          {{ form.csrf_token }}
                         <div class="input-group">
                             <input class="input--style-2" min="50" max="800"  type="number" required placeholder="Maximum Calories" name="maxcalories">
                         </div>
@@ -43,38 +44,38 @@
                         </div>
                         <div class="input-group">
                             <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="class">
+                                <select name="allergies">
                                     <option disabled="disabled" selected="selected" required>Allergies</option>
-                                    <option>Dairy</option>
-                                    <option>Egg</option>
-                                    <option>Gluten</option>
-                                    <option>Grain</option>
-                                    <option>Peanut</option>
-                                    <option>Seafood</option>
-                                    <option>Sesame</option>
-                                    <option>Shellfish</option>
-                                    <option>Soy</option>
-                                    <option>Sulfite</option>
-                                    <option>Tree Nut</option>
-                                    <option>Wheat</option>
-                                    <option>None</option>
+                                    <option value="dairy">Dairy</option>
+                                    <option value="egg">Egg</option>
+                                    <option value="gluten">Gluten</option>
+                                    <option value="grain">Grain</option>
+                                    <option value="peanut">Peanut</option>
+                                    <option value="seafood">Seafood</option>
+                                    <option value="sesame">Sesame</option>
+                                    <option value="shellfish">Shellfish</option>
+                                    <option value="soy">Soy</option>
+                                    <option value="sulfite">Sulfite</option>
+                                    <option value="treeNut">Tree Nut</option>
+                                    <option value="wheat">Wheat</option>
+                                    <option value="none">None</option>
                                 </select>
                                 <div class="select-dropdown"></div>
                             </div>
                         </div>
                         <div class="input-group">
                             <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="class">
+                                <select name="preferredDiet">
                                     <option disabled="disabled" selected="selected" required>Preferred Diet</option>
-                                    <option>Gluten Free</option>
-                                    <option>Ketogenic</option>
-                                    <option>Vegetarian</option>
-                                    <option>Lacto-vegetarian</option>
-                                    <option>Ovo-vegetarian</option>
-                                    <option>Vegan</option>
-                                    <option>Pescetarian</option>
-                                    <option>Paleo</option>
-                                    <option>None</option>
+                                    <option value="gluten free">Gluten Free</option>
+                                    <option value="kentogenic">Ketogenic</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="lacto-vegetarian">Lacto-vegetarian</option>
+                                    <option value="ovo-vegetarian">Ovo-vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                    <option value="pescetarian">Pescetarian</option>
+                                    <option value="paleo">Paleo</option>
+                                    <option value="none">None</option>
                                 </select>
                                 <div class="select-dropdown"></div>
                             </div>

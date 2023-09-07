@@ -53,30 +53,29 @@
         <!-- Section-->
         <section class="py-5 container">
 {% block content %}
-<!--<div class="row">-->
-<!--    {% for recipe in values %}-->
-<!--    <div class="col-md-4">-->
-<!--        <div class="card mb-4 shadow-sm">-->
-<!--            <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">-->
-<!--            <div class="card-body">-->
-<!--                <p class="card-text">{{ recipe.title }}</p>-->
-<!--                <div class="d-flex justify-content-between align-items-center">-->
-<!--                    <div class="btn-group">-->
-<!--                        <a href="{{ recipe.sourceUrl }}" class="btn btn-sm btn-outline-secondary">View Recipe</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-<h1>Form Data</h1>
-    <p>Max Calories: {{ maxcalories or form.maxcalories }}</p>
-    <p>Min Protein: {{ minprotein or form.minprotein }}</p>
-    <p>Max Fat: {{ maxfat }}</p>
-    <p>Allergies: {{ allergies or form.allergies }}</p>
-    <p>Preferred Diet: {{ form.preferredDiet }}</p>
-            <div>{{result}}</div>
+<div class="row">
+   {% if datas|length < 1 %}
+    <div> There's no recipes meet the requirements, try changing the filter
+        <a href="{{url_for('get_recommendations')}}">Try again</a></div>
+    {% else %}
+     {% for recipe in datas %}
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">
+            <div class="card-body">
+                <p class="card-text">{{ recipe.title }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{{ recipe.sourceUrl }}" class="btn btn-sm btn-outline-secondary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
 {% endblock %}
 
 </section>

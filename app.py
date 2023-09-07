@@ -1,11 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for,session
 import requests
 import secrets
 from Forms import SearchForm
-import logging
-
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
 
 secret_key = secrets.token_hex(32)
 
@@ -39,44 +35,46 @@ def index():
         return "Failed to fetch recipes from Spoonacular API."
 
 
-@app.route('/display_recommendations', methods=['GET', 'POST'])
-def display_recommendations():
-    form = SearchForm()
-    if form.validate_on_submit():
-        # Retrieve input values
+@app.route('/get_recommendations', methods=['GET', 'POST'])
+def get_recommendations():
+    form = SearchForm(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
         maxcalories = form.maxcalories.data
         minprotein = form.minprotein.data
         maxfat = form.maxfat.data
         allergies = form.allergies.data
         preferredDiet = form.preferredDiet.data
+        return redirect(url_for('display_recommendations', maxcalories=maxcalories, minprotein=minprotein, maxfat=maxfat,allergies=allergies, preferredDiet=preferredDiet))
+    return render_template('preferencespage/index.html', form=form)
 
-        response = requests.get(
-            f'https://api.spoonacular.com/recipes/complexSearch',
-            params={
-                'apiKey': SPOONACULAR_API_KEY,
-                'diet':preferredDiet,
-                'minProtein': minprotein,
-                # 'maxFat':maxfat,
-                # 'maxCalories':maxcalories,
-                # 'excludeIngredients':allergies,
-                'number': 10,  # Number of recipes to fetch
-                'sort': 'popularity',  # Sort by popularity or other criteria
-            }
-        )
-        print(response.status_code)
-        if response.status_code == 200:
-            data = response.json()
-            print(data)
-            return render_template('recommendations.html', result=data)
-        else:
-            return 'oops no form'
-    return render_template('recommendations.html',  form = form)
-
-
-@app.route('/get_recommendations')
-def get_recommendations():
-    return render_template('preferencespage/index.html')
-
+@app.route('/display_recommendations', methods=['GET'])
+def display_recommendations():
+    maxcalories = request.args.get('maxcalories')
+    minprotein = request.args.get('minprotein')
+    maxfat = request.args.get('maxfat')
+    allergies = request.args.get('allergies')
+    preferredDiet = request.args.get('preferredDiet')
+    response = requests.get(
+        f'https://api.spoonacular.com/recipes/complexSearch',
+        params={
+            'apiKey': SPOONACULAR_API_KEY,
+            'maxCalories': maxcalories,
+            'minProtein': minprotein,
+            'maxFat': maxfat,
+            'excludeIngredients': allergies,
+            'diet': preferredDiet,
+            'number': 10,  # Number of recipes to fetch
+            'sort': 'popularity',  # Sort by popularity or other criteria
+        }
+    )
+    print(response.status_code)
+    if response.status_code == 200:
+        data = response.json()
+        recipes = data['results']
+        return render_template('recommendations.html',
+                              datas= recipes)
+    else:
+        return "Failed to fetch recipes from Spoonacular API."
 
 @app.route("/search")
 def search_page():

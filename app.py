@@ -83,8 +83,8 @@ def display_recommendations():
             'maxFat': maxfat,
             'excludeIngredients': allergies,
             'diet': preferredDiet,
-            'number': 10,  # Number of recipes to fetch
-            'sort': 'popularity',  # Sort by popularity or other criteria
+            'number': 20,  # Number of recipes to fetch
+            'sort': 'healthiness',  # Sort by popularity or other criteria
         }
     )
     print(response.status_code)

@@ -31,15 +31,15 @@
                 </div>
                 <div class="card-body">
                     <h2 class="title">Your Preferences</h2>
-                    <form method="POST">
+                    <form method="POST" action="/display_recommendations">
                         <div class="input-group">
-                            <input class="input--style-2" type="number" required placeholder="Maximum Calories" name="maxcalories">
+                            <input class="input--style-2" min="50" max="800"  type="number" required placeholder="Maximum Calories" name="maxcalories">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-2" type="number" required placeholder="Miniumum amount of Protein" name="minprotein">
+                            <input class="input--style-2" min="10" max="100" type="number" required placeholder="Miniumum amount of Protein" name="minprotein">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-2" type="number" required placeholder="Maximum Fat" name="maxfat">
+                            <input class="input--style-2" min="1" max="100" type="number" required placeholder="Maximum Fat" name="maxfat">
                         </div>
                         <div class="input-group">
                             <div class="rs-select2 js-select-simple select--no-search">

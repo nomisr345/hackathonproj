@@ -1,105 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>The Healthy Foodie</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">The Healthy Foodie</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
-                 <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Account Section -->
-        <ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="accountDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
-            </a>
-        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-            <li><a class="dropdown-item" href="#!">Profile</a></li>
-            <li><a class="dropdown-item" href="#!">Settings</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#!">Logout</a></li>
-        </ul>
-    </li>
-</ul>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>The Healthy Foodie</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">The Healthy Foodie</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Account Section -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="accountDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="#!">Profile</a></li>
+                            <li><a class="dropdown-item" href="#!">Settings</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="{{url_for('login_page')}}">Login</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-        <!-- Header-->
-        <header class="">
-            <div class="overlay-container">
-                 <img src="{{url_for('static', filename = 'images/banner.jpg')}}" alt="Your Image" class="overlay-img">
-                <div class="overlay text-center text-white banner">
-                   <div class="center-div">
-                        <h1 class="display-4 fw-bolder">Eating healthier</h1>
+    <!-- Header-->
+    <header class="">
+        <div class="overlay-container">
+            <img src="{{url_for('static', filename = 'images/banner.jpg')}}" alt="Your Image" class="overlay-img">
+            <div class="overlay text-center text-white banner">
+                <div class="center-div">
+                    <h1 class="display-4 fw-bolder">Eating healthier</h1>
                     <p class="lead fw-normal text-white mb-0">Tasty and healthy recipes for you</p>
                     <a href="{{url_for('get_recommendations')}}">  <button class="btn btn-primary mt-3">Get Recommendations</button></a>
-                   </div>
                 </div>
             </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5 container">
+        </div>
+    </header>
 
-
-
-
-{% block content %}
-<div class="row">
-    {% for recipe in recipes %}
-    <div class="col-md-3">
-        <div class="card mb-4 shadow-sm">
-            <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">
-            <div class="card-body">
-                <div style="height:70px"><p class="card-text">{{ recipe.title }}</p></div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a href="{{ recipe.sourceUrl }}" class="btn btn-sm btn-outline-secondary">View Recipe</a>
+    <!-- Section-->
+    <section class="py-5 container">
+        {% block content %}
+        <div class="row">
+            {% for recipe in recipes %}
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">
+                    <div class="card-body">
+                        <div style="height:70px">
+                            <p class="card-text">{{ recipe.title }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{{ recipe.sourceUrl }}" class="btn btn-sm btn-outline-secondary">View Recipe</a>
+                            </div>
+                            <!-- Add data attributes for nutrition URL and preparation time -->
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                    data-nutrition-url="{{ recipe.nutritionUrl }}"
+                                    data-preparation-time="{{ recipe.preparationTime }}"
+                                    data-toggle="modal" data-target="#nutritionModal"
+                                    data-recipe-title="{{ recipe.title }}"
+                                    data-recipe-image="{{ recipe.image }}">
+                                Nutrition
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </section>
+
+    <!-- Nutrition Modal -->
+    <div class="modal fade" id="nutritionModal" tabindex="-1" role="dialog" aria-labelledby="nutritionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nutritionModalLabel">Nutrition Information for <span id="modalRecipeTitle"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Nutrition details will be displayed here -->
+                    <p>Calories: <span id="calories"></span></p>
+                    <p>Fat: <span id="fat"></span></p>
+                    <p>Protein: <span id="protein"></span></p>
+                    <p>Carbohydrates: <span id="carbohydrates"></span></p>
+                    <!-- You can add more nutrition information as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
-    {% endfor %}
-</div>
-{% endblock %}
 
-</section>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+<!--'''<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>-->
+<!--<input id="search" ><button onclick="getrecepe(document.getElementById('search').value)">Search</button>-->
+<!--<div id="output"></div>-->
+<!--<a href="" id="sourceLink"></a>-->
+<!--<script>-->
 
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+<!--function getsource(id){-->
+<!--$.ajax({-->
+<!--url:"https://api.spoonacular.com/recipes/"+id+"/information?apiKey=db090e79deb937480d95c675344c10bf55",-->
+<!--success: function(res) {-->
+
+<!--document.getElementById("sourceLink").innerHTML=res.sourceUrl-->
+<!--document.getElementById("sourceLink").href=res.sourceUrl-->
+<!--}-->
+<!--});-->
+<!--}-->
+<!--function getrecepe(q){-->
+<!--$.ajax({-->
+<!--url:"https://api.spoonacular.com/recipes/search?apiKey=db254b5cd61744d39a2deebd9c361444&number=1&query="+q,-->
+<!--success: function(res) {-->
+
+<!--document.getElementById("output").innerHTML="<h1>"+res.results[0].title+"</h1><br><img src='"+res.baseUri+res.results[0].image+"' width='400' /><br>Ready in "+res.results[0].readyInMinutes+" minutes"-->
+<!--getsource(res.results[0].id)-->
+<!--}-->
+<!--});-->
+<!--}-->
+
+</script>
+</body>
 </html>

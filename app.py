@@ -28,6 +28,11 @@ def index():
     if response.status_code == 200:
         data = response.json()
         recipes = data['results']
+
+        # Print and check the recipes
+        for recipe in recipes:
+            print(f"Recipe ID: {recipe['id']}, Title: {recipe['title']}")
+
         return render_template("index.html", recipes=recipes)
     else:
         # Handle API error
@@ -77,6 +82,9 @@ def get_recommendations():
 def search_page():
     return render_template('search.html')
 
+@app.route("/loginpage")
+def login_page():
+    return render_template('login page/loginpage.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

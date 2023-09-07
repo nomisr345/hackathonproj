@@ -24,15 +24,7 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
+
                 </ul>
 
 <!-- Account Section -->
@@ -106,11 +98,12 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary"
                             data-recipe-id="{{ recipe.id }}">View Recipe
                             </button>
+                            <a href="{{url_for('saved_page')}}">
                             <button type="button" class="btn btn-sm btn-outline-secondary custom-save-button"
                                 id="save-button-{{ recipe.id }}"
-                                data-recipe-id="{{ recipe.id }}">
+                                data-recipe-id="{{ recipe.id }}" >
                                 <i class="bi bi-bookmark-heart-fill"></i> Save
-                            </button>
+                            </button></a>
 
 
                         </div>
@@ -199,34 +192,15 @@
                 if (saveButton) {
                     // Check if the button text is 'Save'
                     if (saveButton.textContent.trim() === 'Save') {
-                        // Send a request to your server to save the recipe (you'll need to implement this endpoint)
-                        // Example using fetch:
-                        fetch('/save_recipe', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ recipeId }),
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                // Redirect to the 'saved.html' page after the recipe is saved
-                                window.location.href = '/saved.html'; // Change this to the correct URL
-                            } else {
-                                alert('Failed to save the recipe.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Failed to save the recipe. Please check your internet connection or try again later.');
-                        });
+                        // Redirect to the index page (or any other desired URL)
+                        window.location.href = '/save_recipe'; // Change this to the desired URL
 
-                        });
+                        // You can also add code here to send a request to your server to save the recipe
 
                         // Change button text to 'Saved', add the 'saved' class, and change the icon
                         saveButton.textContent = 'Saved';
                         saveButton.classList.add('saved-button');
-                        icon.classList.remove('bi-bookmark-heart-fill');
+
                         icon.classList.add('bi-bookmark-heart');
                     } else {
                         // Here, you can handle the "Unsave" action (if needed)
@@ -236,7 +210,6 @@
         });
     });
 </script>
-
 
 
 

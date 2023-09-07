@@ -122,7 +122,7 @@ def signup_page():
             db_sql.session.commit()
         except Exception as e:
             return render_template("error.html", message="Username already exists!")
-        return render_template("signin.html", msg="Account created!")
+        return render_template("login page/signin.html", msg="Account created!")
     return render_template('login page/signup.html')
 
 # def valid_login(username, password):

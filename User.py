@@ -1,8 +1,5 @@
 # User class
 class User:
-    count_id = 0
-
-    # initializer method
     def __init__(self, username, email,password):
         User.count_id += 1
         self.__user_id = User.count_id

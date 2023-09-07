@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, flash, redirect, url_for,session,send_from_directory
+from flask import Flask, render_template, request, flash, redirect, url_for,session,send_from_directory,jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
-from db import db_init, db as db_sql
+from db import db, User, Recipe, SavedRecipe, add_saved_recipe, get_saved_recipes_by_user
+
 from helpers import login_required
 import requests
 import secrets
 from Forms import SearchForm
 import logging
 import shelve, User
-from models import Users
+from saved import Saved
+from flask_sqlalchemy import SQLAlchemy
+from models import Users, SavedRecipes
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -18,7 +21,7 @@ secret_key = secrets.token_hex(32)
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///items.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db_init(app)
+db.init_app(app)
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -27,7 +30,7 @@ app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
 app.config['SECRET_KEY'] = secret_key
-SPOONACULAR_API_KEY = 'dbb9786f2f414a8fb6bba67467d12c4d'
+SPOONACULAR_API_KEY = '0c9652ce1d1147619d550d8a1dee321e'
 
 
 @app.route("/")
@@ -37,7 +40,7 @@ def index():
         params={
             'apiKey': SPOONACULAR_API_KEY,
             'number': 10,  # Number of recipes to fetch
-            'sort': 'popularity',  # Sort by popularity or other criteria
+            'sort': 'healthiness',  # Sort by popularity or other criteria
         }
     )
     print(response.status_code)
@@ -100,6 +103,9 @@ def display_recommendations():
 def search_page():
     return render_template('search.html')
 
+@app.route("/saved")
+def saved_page():
+    return render_template('saved.html')
 @app.route("/signup", methods=["GET", "POST"])
 def signup_page():
     if request.method == "POST":
@@ -118,8 +124,8 @@ def signup_page():
         # store in database
         new_user = Users(username=username, password=pw_hash)
         try:
-            db_sql.session.add(new_user)
-            db_sql.session.commit()
+            db.session.add(new_user)
+            db.session.commit()
         except Exception as e:
             return render_template("error.html", message="Username already exists!")
         return render_template("signin.html", msg="Account created!")
@@ -149,7 +155,7 @@ def signin_page():
             if result == None or not check_password_hash(result.password, password):
                 return render_template("error.html", message="Invalid username and/or password")
             # Remember which user has logged in
-            session["username"] = result.username
+            session["username"] = session["username"] = result.username
             return redirect("/")
         return render_template("login page/signin.html")
 @app.route("/logout")
@@ -161,6 +167,64 @@ def logout():
 def dashboard():
     username = session.get("username")
     return f"Welcome, {username}!"
+
+
+# Import necessary modules and classes
+
+# Function to fetch saved recipes (you should implement this)
+# @app.route('/save_recipe/<int:recipe_id>', methods=['POST'])
+# def save_recipe(recipe_id):
+#     if 'username' in session:
+#         # Get the current user's ID based on the session username
+#         current_user = Users.query.filter_by(username=session['username']).first()
+#
+#         # Check if the recipe is already saved by the user
+#         existing_saved_recipe = SavedRecipes.query.filter_by(user_id=current_user.id, recipe_id=recipe_id).first()
+#         if existing_saved_recipe:
+#             # Recipe is already saved, return a JSON response indicating it's saved
+#             return jsonify(saved=True)
+#
+#         # Create a new SavedRecipes record to save the recipe
+#         saved_recipe = SavedRecipes(user_id=current_user.id, recipe_id=recipe_id)
+#         db.session.add(saved_recipe)
+#         db.session.commit()
+#
+#         # Return a JSON response indicating the recipe is now saved
+#         return jsonify(saved=True)
+#     else:
+#         # User is not logged in, return an error JSON response
+#         return jsonify(error='User not logged in')
+#
+# # Define a route to retrieve saved recipes for the current user
+# @app.route('/saved_recipes')
+# def saved_recipes():
+#     if 'username' in session:
+#         # Get the current user's ID based on the session username
+#         current_user = Users.query.filter_by(username=session['username']).first()
+#
+#         # Retrieve the saved recipes for the current user
+#         saved_recipe_records = SavedRecipes.query.filter_by(user_id=current_user.id).all()
+#
+#         # Extract the recipe IDs from the saved records
+#         saved_recipe_ids = [record.recipe_id for record in saved_recipe_records]
+#
+#         # Retrieve the actual recipe objects from the Recipe model
+#         saved_recipes = Recipes.query.filter(Recipes.id.in_(saved_recipe_ids)).all()
+#
+#         # Render the 'saved.html' template with the saved recipes
+#         return render_template('saved.html', saved_recipes=saved_recipes)
+#     else:
+#         # User is not logged in, handle accordingly (redirect, show an error, etc.)
+#         return redirect(url_for('login'))  # Redirect to login page or handle as needed
+
+# Other routes and functions for your application
+
+
+
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     # Add other user fields (e.g., username, password, etc.)
+#     saved_recipes = db.relationship('Saved', backref='user', lazy=True)
 
 
 if __name__ == "__main__":

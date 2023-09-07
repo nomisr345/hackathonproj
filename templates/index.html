@@ -23,7 +23,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -45,7 +45,9 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
                 <li><a class="dropdown-item" href="#!">Profile</a></li>
+                <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved recipes</a></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
+
             </ul>
         </li>
     {% else %}
@@ -55,8 +57,6 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedOutAccountDropdown">
-                <li><a class="dropdown-item" href="#!">Profile</a></li>
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="{{url_for('signin_page')}}">Login</a></li>
             </ul>
@@ -106,6 +106,12 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary"
                             data-recipe-id="{{ recipe.id }}">View Recipe
                             </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary custom-save-button"
+                                id="save-button-{{ recipe.id }}"
+                                data-recipe-id="{{ recipe.id }}">
+                                <i class="bi bi-bookmark-heart-fill"></i> Save
+                            </button>
+
 
                         </div>
                     </div>
@@ -153,7 +159,7 @@
     // Function to get the source URL for a recipe by its ID
     async function getRecipeSource(recipeId) {
         try {
-            const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=dbb9786f2f414a8fb6bba67467d12c4d`);
+            const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=0c9652ce1d1147619d550d8a1dee321e`);
             if (response.ok) {
                 const data = await response.json();
                 const sourceUrl = data.sourceUrl;
@@ -179,6 +185,61 @@
         });
     });
 </script>
+<script>
+    // JavaScript code to handle the "Save" button click
+    document.addEventListener("DOMContentLoaded", function () {
+        const saveButtons = document.querySelectorAll('.custom-save-button');
+
+        saveButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const recipeId = button.getAttribute('data-recipe-id');
+                const saveButton = document.getElementById(`save-button-${recipeId}`);
+                const icon = saveButton.querySelector('i');
+
+                if (saveButton) {
+                    // Check if the button text is 'Save'
+                    if (saveButton.textContent.trim() === 'Save') {
+                        // Send a request to your server to save the recipe (you'll need to implement this endpoint)
+                        // Example using fetch:
+                        fetch('/save_recipe', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ recipeId }),
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Redirect to the 'saved.html' page after the recipe is saved
+                                window.location.href = '/saved.html'; // Change this to the correct URL
+                            } else {
+                                alert('Failed to save the recipe.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to save the recipe. Please check your internet connection or try again later.');
+                        });
+
+                        });
+
+                        // Change button text to 'Saved', add the 'saved' class, and change the icon
+                        saveButton.textContent = 'Saved';
+                        saveButton.classList.add('saved-button');
+                        icon.classList.remove('bi-bookmark-heart-fill');
+                        icon.classList.add('bi-bookmark-heart');
+                    } else {
+                        // Here, you can handle the "Unsave" action (if needed)
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 
 </body>
 </html>

@@ -10867,3 +10867,13 @@ textarea.form-control-lg {
     padding: 10px;
     z-index: 999;
 }
+.custom-save-button {
+    background-color: hotpink; /* Set the background color to pink */
+    color: white; /* Set the text color to white or any other desired color */
+    border-color: hotpink; /* Set the border color to pink */
+}
+
+.custom-save-button:hover {
+    background-color: pink; /* Change the background color on hover */
+    border-color: pink; /* Change the border color on hover */
+}

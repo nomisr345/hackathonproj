@@ -10858,3 +10858,12 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/* CSS for the nutritional popup */
+.nutritional-popup {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999;
+}

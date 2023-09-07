@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, flash, redirect, url_for,session,send_from_directory
+from flask import Flask, render_template, request, flash, redirect, url_for,session,send_from_directory,jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
-from db import db_init, db as db_sql
+from db import db, User, Recipe, SavedRecipe, add_saved_recipe, get_saved_recipes_by_user
+from Forms import SearchForm,CreateUserForm
 from helpers import login_required
 import requests
 import secrets
 from Forms import SearchForm
 import logging
 import shelve, User
-from models import Users
+from saved import Saved
+from flask_sqlalchemy import SQLAlchemy
+from models import Users, SavedRecipes
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -18,7 +21,7 @@ secret_key = secrets.token_hex(32)
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///items.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db_init(app)
+db.init_app(app)
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -37,7 +40,7 @@ def index():
         params={
             'apiKey': SPOONACULAR_API_KEY,
             'number': 10,  # Number of recipes to fetch
-            'sort': 'popularity',  # Sort by popularity or other criteria
+            'sort': 'healthiness',  # Sort by popularity or other criteria
         }
     )
     print(response.status_code)
@@ -102,6 +105,53 @@ def saved_page():
 def search_page():
     return render_template('search.html')
 
+recipes = [
+    {
+        'id': 1,
+        'title': 'Recipe 1',
+        'image': 'recipe1.jpg',
+        # Add other recipe data fields as needed
+    },
+    {
+        'id': 2,
+        'title': 'Recipe 2',
+        'image': 'recipe2.jpg',
+        # Add other recipe data fields as needed
+    },
+    # Add more recipe entries as needed
+]
+
+# Define the fetch_recipes function to return the recipe data
+def fetch_recipes():
+    return recipes
+
+saved_recipes = {}
+
+@app.route('/save_recipe/<recipe_id>', methods=['POST'])
+def save_recipe(recipe_id):
+    if request.method == 'POST':
+        user_id = session.get('username')
+        if user_id:
+            saved_recipes.setdefault(user_id, []).append(recipe_id)
+            print(saved_recipes)  # Print saved_recipes for debugging
+            return jsonify({"saved": True})
+        else:
+            return jsonify({"error": "User not logged in"})
+
+@app.route('/saved')
+def saved_page():
+    if 'username' in session:  # Check if the user is logged in
+        username = session['username']  # Get the username from the session
+
+        # Fetch the user's saved recipes from the database
+        user = Users.query.filter_by(username=username).first()
+        saved_recipes = SavedRecipes.query.filter_by(user_id=user.usr_id).all()
+
+        return render_template('saved.html', saved_recipes=saved_recipes)
+    else:
+        return redirect(url_for('signin_page'))  # Redirect to the login page if the user is not logged in
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup_page():
     if request.method == "POST":
@@ -120,23 +170,14 @@ def signup_page():
         # store in database
         new_user = Users(username=username, password=pw_hash)
         try:
-            db_sql.session.add(new_user)
-            db_sql.session.commit()
+            db.session.add(new_user)
+            db.session.commit()
         except Exception as e:
             return render_template("error.html", message="Username already exists!")
         return render_template("login page/signin.html", msg="Account created!")
     return render_template('login page/signup.html')
 
-# def valid_login(username, password):
-#     # Replace this with your actual login validation logic
-#     # For demonstration purposes, this example uses hardcoded values
-#     valid_username = "example_user"
-#     valid_password = "example_password"
-#
-#     if username == valid_username and password == valid_password:
-#         return True
-#     else:
-#         return False
+
 
 
 @app.route("/signin", methods=["GET","POST"])
@@ -151,7 +192,7 @@ def signin_page():
             if result == None or not check_password_hash(result.password, password):
                 return render_template("error.html", message="Invalid username and/or password")
             # Remember which user has logged in
-            session["username"] = result.username
+            session["username"] = session["username"] = result.username
             return redirect("/")
         return render_template("login page/signin.html")
 @app.route("/logout")
@@ -164,6 +205,44 @@ def dashboard():
     username = session.get("username")
     return render_template('dashboard.html', username = username)
 
+from flask import render_template, request, session
+
+@app.route('/profile')
+def profile():
+    # Get the username from the session (assuming you store it upon login)
+    username = session.get('username')
+
+    # Fetch the user data from the database
+    user = Users.query.filter_by(username=username).first()
+
+    return render_template('profile.html', user=user)
+
+
+@app.route('/createUser', methods=['GET', 'POST'])
+def create_user():
+    create_user_form = CreateUserForm(request.form)
+    if request.method == 'POST' and create_user_form.validate():
+        users_dict = {}
+        db = shelve.open('user.db', 'c')
+
+        try:
+            users_dict = db['Users']
+        except:
+            print("Error in retrieving Users from user.db.")
+
+        user = User.User(create_user_form.username.data, create_user_form.email.data, create_user_form.password.data)
+        users_dict[user.get_user_id()] = user
+        db['Users'] = users_dict
+
+        db.close()
+
+        return redirect(url_for('retrieve_users'))
+    return render_template('createUser.html', form=create_user_form)
+
+
+
+
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8080)

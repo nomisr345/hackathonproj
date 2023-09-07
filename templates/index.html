@@ -34,10 +34,10 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
-                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Profile</a></li>
-                  <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Your recipes</a></li>
-                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#!">Profile</a></li>
+                <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved recipes</a></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
+
             </ul>
         </li>
     {% else %}
@@ -98,6 +98,13 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary"
                             data-recipe-id="{{ recipe.id }}">View Recipe
                             </button>
+                            <a href="{{url_for('saved_page')}}">
+                            <button type="button" class="btn btn-sm btn-outline-secondary custom-save-button"
+                                id="save-button-{{ recipe.id }}"
+                                data-recipe-id="{{ recipe.id }}" >
+                                <i class="bi bi-bookmark-heart-fill"></i> Save
+                            </button></a>
+
 
                         </div>
                     </div>
@@ -145,7 +152,7 @@
     // Function to get the source URL for a recipe by its ID
     async function getRecipeSource(recipeId) {
         try {
-            const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=dbb9786f2f414a8fb6bba67467d12c4d`);
+            const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=0c9652ce1d1147619d550d8a1dee321e`);
             if (response.ok) {
                 const data = await response.json();
                 const sourceUrl = data.sourceUrl;
@@ -171,6 +178,41 @@
         });
     });
 </script>
+<script>
+    // JavaScript code to handle the "Save" button click
+    document.addEventListener("DOMContentLoaded", function () {
+        const saveButtons = document.querySelectorAll('.custom-save-button');
+
+        saveButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const recipeId = button.getAttribute('data-recipe-id');
+                const saveButton = document.getElementById(`save-button-${recipeId}`);
+                const icon = saveButton.querySelector('i');
+
+                if (saveButton) {
+                    // Check if the button text is 'Save'
+                    if (saveButton.textContent.trim() === 'Save') {
+                        // Redirect to the index page (or any other desired URL)
+                        window.location.href = '/save_recipe'; // Change this to the desired URL
+
+                        // You can also add code here to send a request to your server to save the recipe
+
+                        // Change button text to 'Saved', add the 'saved' class, and change the icon
+                        saveButton.textContent = 'Saved';
+                        saveButton.classList.add('saved-button');
+
+                        icon.classList.add('bi-bookmark-heart');
+                    } else {
+                        // Here, you can handle the "Unsave" action (if needed)
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+
 
 </body>
 </html>

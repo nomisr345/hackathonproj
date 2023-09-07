@@ -1,128 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>The Healthy Foodie</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container ">
-            <a class="navbar-brand" href="#!">The Healthy Foodie</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{url_for('display_recommendations')}}">Suggested Foods</a></li>
-                </ul>
-
-<!-- Account Section -->
-<ul class="navbar-nav ms-auto">
-    {% if session.username %}
-        <!-- If a user is logged in, display the profile and logout dropdown -->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="loggedInAccountDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
-                 <li><p class="dropdown-item">{{session.username}}</p></li>
-                 <li><p class="dropdown-item">{{session.password}}</p></li>
-                  <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Your recipes</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
-            </ul>
-        </li>
-    {% else %}
-        <!-- If no user is logged in, display the login button -->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="loggedOutAccountDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="loggedOutAccountDropdown">
-
-                <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Sign Up</a></li>
-            </ul>
-        </li>
-    {% endif %}
-</ul>
-
-
-
-            </div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>The Healthy Foodie</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">The Healthy Foodie</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Your navigation links -->
         </div>
-    </nav>
-        <!-- Section-->
-        <section class="py-5 container">
-            <h3>Saved diets</h3>
-{% block content %}
-          <div class="row">
-             <div class="col-md-3">
-                <div class="card mb-4 shadow-sm">
-                    <img src="https://unsplash.com/photos/iNwCO9ycBlc" alt="recipe title" class="bd-placeholder-img card-img-top" width="100%">
-                    <div class="card-body">
-                        <div style="height:70px">
-                            <p class="card-text">title</p>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <!-- Add data attributes for nutrition URL and preparation time -->
-                            <button type="button" class="btn btn-sm btn-outline-secondary"
-                            data-recipe-id="">View Recipe
-                            </button>
+    </div>
+</nav>
 
-                        </div>
+    <!-- Section -->
+   <!-- Section-->
+<section class="py-5 container">
+    <div class="row">
+        {% for recipe_id in saved_recipes %}
+        <div class="col-md-3">
+            <div class="card mb-4 shadow-sm">
+                <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">
+                <div class="card-body">
+                    <div style="height:70px">
+                        <p class="card-text">{{ recipe.title }}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-recipe-id="{{ recipe.id }}">View Recipe</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary custom-save-button" id="save-button-{{ recipe.id }}" data-recipe-id="{{ recipe.id }}">
+                            <i class="bi bi-bookmark-heart-fill"></i> Save
+                        </button>
                     </div>
                 </div>
             </div>
-          </div>
-{% endblock %}
+        </div>
+        {% endfor %}
+    </div>
 </section>
 
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <script>
-        // Function to get the source URL for a recipe by its ID
-        async function getRecipeSource(recipeId) {
-            try {
-                const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=dbb9786f2f414a8fb6bba67467d12c4d`);
-                if (response.ok) {
-                    const data = await response.json();
-                    const sourceUrl = data.sourceUrl;
-                    if (sourceUrl) {
-                        window.open(sourceUrl, '_blank');
-                    } else {
-                        alert('Source URL not available for this recipe.');
-                    }
-                } else {
-                    alert('Failed to fetch recipe information.');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        }
 
-        // Add event listeners to the "View Recipe" buttons
-        const viewRecipeButtons = document.querySelectorAll('[data-recipe-id]');
-        viewRecipeButtons.forEach(button => {
-            button.addEventListener('click', () => {
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+    </footer>
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS -->
+    <script src="js/scripts.js"></script>
+  <script>
+    // JavaScript code to handle the "Save" button click
+    document.addEventListener("DOMContentLoaded", function () {
+        const saveButtons = document.querySelectorAll('.custom-save-button');
+
+        saveButtons.forEach(button => {
+            button.addEventListener('click', function () {
                 const recipeId = button.getAttribute('data-recipe-id');
-                getRecipeSource(recipeId);
+                const saveButton = document.getElementById(`save-button-${recipeId}`);
+                const icon = saveButton.querySelector('i');
+
+                if (saveButton) {
+                    // Check if the button text is 'Save'
+                    if (saveButton.textContent.trim() === 'Save') {
+                        // Redirect to the index page (or any other desired URL)
+                        window.location.href = 'index.html'; // Change this to the desired URL
+
+                        // You can also add code here to send a request to your server to save the recipe
+
+                        // Change button text to 'Saved', add the 'saved' class, and change the icon
+                        saveButton.textContent = 'Saved';
+                        saveButton.classList.add('saved-button');
+                        icon.classList.remove('bi-bookmark-heart-fill');
+                        icon.classList.add('bi-bookmark-heart');
+                    } else {
+                        // Here, you can handle the "Unsave" action (if needed)
+                    }
+                }
             });
         });
-    </script>
-    </body>
+    });
+</script>
+
+</body>
 </html>

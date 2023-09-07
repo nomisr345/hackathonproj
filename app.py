@@ -27,7 +27,7 @@ app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
 app.config['SECRET_KEY'] = secret_key
-SPOONACULAR_API_KEY = 'dbb9786f2f414a8fb6bba67467d12c4d'
+SPOONACULAR_API_KEY = '0c9652ce1d1147619d550d8a1dee321e'
 
 
 @app.route("/")
@@ -83,8 +83,8 @@ def display_recommendations():
             'maxFat': maxfat,
             'excludeIngredients': allergies,
             'diet': preferredDiet,
-            'number': 20,  # Number of recipes to fetch
-            'sort': 'healthiness',  # Sort by popularity or other criteria
+            'number': 10,  # Number of recipes to fetch
+            'sort': 'popularity',  # Sort by popularity or other criteria
         }
     )
     print(response.status_code)
@@ -95,7 +95,9 @@ def display_recommendations():
                               datas= recipes)
     else:
         return "Failed to fetch recipes from Spoonacular API."
-
+@app.route("/saved")
+def saved_page():
+    return render_template('saved.html')
 @app.route("/search")
 def search_page():
     return render_template('search.html')

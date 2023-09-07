@@ -22,7 +22,6 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                      <li><a class="dropdown-item" href="{{url_for('search_page')}}">Search</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('display_recommendations')}}">Suggested Foods</a></li>
                 </ul>
 
@@ -35,8 +34,6 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
-                 <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved Recipes</a></li>
-                    <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Signup</a></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
@@ -48,7 +45,6 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedOutAccountDropdown">
-                 <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved Recipes</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Sign Up</a></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
@@ -64,38 +60,28 @@
     </nav>
         <!-- Section-->
         <section class="py-5 container">
-            <h3>Suggested diets</h3>
+            <h3>Saved diets</h3>
 {% block content %}
-<div class="row">
-   {% if datas|length < 1 %}
-    <div> There's no recipes meet the requirements, try changing the filter
-        <a href="{{url_for('get_recommendations')}}">Try again</a></div>
-    {% else %}
-     <!-- Inside the for loop where you display recipes -->
-{% for recipe in datas %}
-<div class="col-md-3">
-    <div class="card mb-4 shadow-sm">
-        <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="bd-placeholder-img card-img-top" width="100%">
-        <div class="card-body">
-            <div style="height:70px">
-                            <p class="card-text">{{ recipe.title }}</p>
+          <div class="row">
+             <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="https://unsplash.com/photos/iNwCO9ycBlc" alt="recipe title" class="bd-placeholder-img card-img-top" width="100%">
+                    <div class="card-body">
+                        <div style="height:70px">
+                            <p class="card-text">title</p>
                         </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <!-- Add data-recipe-id attribute and set it to the recipe's ID -->
-                    <button data-recipe-id="{{ recipe.id }}" class="btn btn-sm btn-outline-secondary">View Recipe</button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Add data attributes for nutrition URL and preparation time -->
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                            data-recipe-id="">View Recipe
+                            </button>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
-
-    {% endif %}
-</div>
-
+          </div>
 {% endblock %}
-
 </section>
 
         <!-- Footer-->

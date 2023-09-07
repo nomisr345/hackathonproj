@@ -21,18 +21,9 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/search">Recipes</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('display_recommendations')}}">Suggested Foods</a></li>
                 </ul>
 
 <!-- Account Section -->
@@ -44,7 +35,9 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
-                <li><a class="dropdown-item" href="#!">Profile</a></li>
+                <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved Recipes</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Signup</a></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
         </li>
@@ -55,10 +48,10 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedOutAccountDropdown">
-                <li><a class="dropdown-item" href="#!">Profile</a></li>
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
+                <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved recipes</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="{{url_for('signin_page')}}">Login</a></li>
+                <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Sign Up</a></li>
+                <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
         </li>
     {% endif %}

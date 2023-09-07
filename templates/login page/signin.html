@@ -33,13 +33,12 @@
 </head>
 
 <body>
-
     <div class="page-wrapper bg-grey p-t-180 p-b-100 font-robo">
         <div class="wrapper wrapper--w960">
             <div class="card card-2">
                 <div class="card-heading"></div>
                 <div class="card-body">
-                    <h2 class="title">Registration Info</h2>
+                    <h2 class="title">Login Info</h2>
                     <form method="POST">
                         <div class="input-group">
                             <input class="input--style-2" type="text" placeholder="Username" name="username">
@@ -49,16 +48,15 @@
                         </div>
                         <div class="input-group">
                             <input class="input--style-2" type="password" placeholder="Password" name="password">
-                        </div> 
-                        <div class="input-group">
-                            <input class="input--style-2" type="password" placeholder="Confirm Password" name="confirmpassword">
                         </div>
+
                         <div class="p-t-30">
                             <button class="btn btn--radius btn--green" type="submit">Submit</button>
                         </div>
-                            <div class="p-t-30">
-                        <p>Already have an account? <a href="{{url_for('signin_page')}}">Sign in here</a></p>
+                         <div class="p-t-30">
+                        <p>Don't have an account? <a href="{{url_for('login_page')}}">Sign up here</a></p>
                         </div>
+
 
                     </form>
                 </div>

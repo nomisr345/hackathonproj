@@ -86,5 +86,9 @@ def search_page():
 def login_page():
     return render_template('login page/loginpage.html')
 
+@app.route("/signin")
+def signin_page():
+    return render_template('login page/signin.html')
+
 if __name__ == "__main__":
     app.run(debug=True)

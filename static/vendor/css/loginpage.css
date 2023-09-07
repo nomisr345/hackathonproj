@@ -498,3 +498,7 @@ input {
     padding: 60px 50px;
   }
 }
+
+p {
+color: blue;
+}

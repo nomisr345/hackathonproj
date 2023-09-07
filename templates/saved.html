@@ -34,7 +34,10 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
-                <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Signup</a></li>
+                 <li><p class="dropdown-item">{{session.username}}</p></li>
+                 <li><p class="dropdown-item">{{session.password}}</p></li>
+                  <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Your recipes</a></li>
+                <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
         </li>
@@ -45,9 +48,8 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedOutAccountDropdown">
-                <li><hr class="dropdown-divider" /></li>
+
                 <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Sign Up</a></li>
-                <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
         </li>
     {% endif %}

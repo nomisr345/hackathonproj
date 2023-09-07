@@ -1,5 +1,25 @@
 // scripts.js
+  document.addEventListener('DOMContentLoaded', function() {
+        const passwordHidden = document.getElementById('pwd');
+        const passwordVisible = document.getElementById('pwd-reveal');
+        let isPasswordHidden = true; // Initial state
 
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            console.log(pwd.value,isPasswordHidden);
+            if (isPasswordHidden) {
+                passwordHidden.type = 'text'
+                passwordVisible.innerText = 'hide'
+            } else {
+                passwordHidden.type = "password"
+                passwordVisible.innerText = 'show'
+            }
+            isPasswordHidden = !isPasswordHidden;
+        }
+
+        // Add a click event listener to the password reveal button
+        passwordVisible.addEventListener('click', togglePasswordVisibility);
+    });
 // Function to load tooltip data when hovering over the Nutrition button
 function loadTooltipData(button) {
     const nutritionUrl = button.getAttribute('data-nutrition-url');

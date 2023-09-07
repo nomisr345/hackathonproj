@@ -162,7 +162,7 @@ def logout():
 @app.route("/dashboard")
 def dashboard():
     username = session.get("username")
-    return f"Welcome, {username}!"
+    return render_template('dashboard.html', username = username)
 
 
 if __name__ == "__main__":

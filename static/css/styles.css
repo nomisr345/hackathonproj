@@ -119,6 +119,14 @@
  .card:hover {
    border-color: gray;
 }
+
+.password-hidden{
+border:none}
+.dashboard-container{
+height:100vh;
+display:grid;
+justify-content:center;
+align-items:center}
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;

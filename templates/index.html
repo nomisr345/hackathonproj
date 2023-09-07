@@ -16,12 +16,11 @@
 <body>
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container px-4 px-lg-5">
+        <div class="container ">
             <a class="navbar-brand" href="#!">The Healthy Foodie</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('display_recommendations')}}">Suggested Foods</a></li>
                 </ul>
@@ -35,9 +34,9 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedInAccountDropdown">
-                <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved Recipes</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Signup</a></li>
+                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Profile</a></li>
+                  <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Your recipes</a></li>
+                <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
         </li>
@@ -48,11 +47,11 @@
                 <i class="bi bi-person-circle" style="margin-right: 5px;"></i> Account
             </a>
             <ul class="dropdown-menu" aria-labelledby="loggedOutAccountDropdown">
-                <li><a class="dropdown-item" href="{{url_for('saved_page')}}">Saved recipes</a></li>
-                <li><hr class="dropdown-divider" /></li>
+
                 <li><a class="dropdown-item" href="{{url_for('signup_page')}}">Sign Up</a></li>
-                <li><a class="dropdown-item" href="{{url_for('logout')}}">Logout</a></li>
             </ul>
+
+
         </li>
     {% endif %}
 </ul>
@@ -136,7 +135,7 @@
 
     <!-- Footer-->
     <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; HealthyFoodies 2023</p></div>
     </footer>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello world</title>
+    <title>UserProfile</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </head>
 <body>
+<div class="dashboard-container">
+    <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Welcome May</h5>
+    <p class="card-text">Your Password</p>
+    <p><div class="password-container">
+            <input class="password-hidden" type="password" value="mypwd" id="pwd"/>
+            <button class="password-visible btn btn-sm btn-outline-secondary" id="pwd-reveal">See</button>
+        </div></p>
 
+    <a href="/" class="btn btn-primary">Back to Home</a>
+  </div>
+</div>
+</div>
 </body>
 </html>

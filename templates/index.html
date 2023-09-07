@@ -102,18 +102,11 @@
                             <p class="card-text">{{ recipe.title }}</p>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="{{ recipe.sourceUrl }}" class="btn btn-sm btn-outline-secondary">View Recipe</a>
-                            </div>
                             <!-- Add data attributes for nutrition URL and preparation time -->
                             <button type="button" class="btn btn-sm btn-outline-secondary"
-                                    data-nutrition-url="{{ recipe.nutritionUrl }}"
-                                    data-preparation-time="{{ recipe.preparationTime }}"
-                                    data-toggle="modal" data-target="#nutritionModal"
-                                    data-recipe-title="{{ recipe.title }}"
-                                    data-recipe-image="{{ recipe.image }}">
-                                Nutrition
+                            data-recipe-id="{{ recipe.id }}">View Recipe
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -156,33 +149,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-<!--'''<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>-->
-<!--<input id="search" ><button onclick="getrecepe(document.getElementById('search').value)">Search</button>-->
-<!--<div id="output"></div>-->
-<!--<a href="" id="sourceLink"></a>-->
-<!--<script>-->
+        <script>
+    // Function to get the source URL for a recipe by its ID
+    async function getRecipeSource(recipeId) {
+        try {
+            const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=0a96a058a4d943f9adf10b5941d1c7ab`);
+            if (response.ok) {
+                const data = await response.json();
+                const sourceUrl = data.sourceUrl;
+                if (sourceUrl) {
+                    window.open(sourceUrl, '_blank');
+                } else {
+                    alert('Source URL not available for this recipe.');
+                }
+            } else {
+                alert('Failed to fetch recipe information.');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-<!--function getsource(id){-->
-<!--$.ajax({-->
-<!--url:"https://api.spoonacular.com/recipes/"+id+"/information?apiKey=db090e79deb937480d95c675344c10bf55",-->
-<!--success: function(res) {-->
-
-<!--document.getElementById("sourceLink").innerHTML=res.sourceUrl-->
-<!--document.getElementById("sourceLink").href=res.sourceUrl-->
-<!--}-->
-<!--});-->
-<!--}-->
-<!--function getrecepe(q){-->
-<!--$.ajax({-->
-<!--url:"https://api.spoonacular.com/recipes/search?apiKey=db254b5cd61744d39a2deebd9c361444&number=1&query="+q,-->
-<!--success: function(res) {-->
-
-<!--document.getElementById("output").innerHTML="<h1>"+res.results[0].title+"</h1><br><img src='"+res.baseUri+res.results[0].image+"' width='400' /><br>Ready in "+res.results[0].readyInMinutes+" minutes"-->
-<!--getsource(res.results[0].id)-->
-<!--}-->
-<!--});-->
-<!--}-->
-
+    // Add event listeners to the "View Recipe" buttons
+    const viewRecipeButtons = document.querySelectorAll('[data-recipe-id]');
+    viewRecipeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const recipeId = button.getAttribute('data-recipe-id');
+            getRecipeSource(recipeId);
+        });
+    });
 </script>
+
 </body>
 </html>

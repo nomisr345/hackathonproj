@@ -30,7 +30,7 @@ app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
 app.config['SECRET_KEY'] = secret_key
-SPOONACULAR_API_KEY = 'ccfe11f1538f4680838f93c6d459c86f'
+SPOONACULAR_API_KEY = '24da809cd77a41c9a8b17c1e8b52f5ac'
 
 
 @app.route("/")
